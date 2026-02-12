@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newport Isn't Shit</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-colour: #F5B214; /* Newport Amber */
+            --text-colour: #004D37; /* Newport Green */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--bg-colour);
+            color: var(--text-colour);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; 
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative; 
+            padding: 120px 20px; 
+            box-sizing: border-box;
+        }
+
+        /* --- TOP LOGO --- */
+        #site-title {
+            position: absolute;
+            top: 40px; 
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.9;
+            pointer-events: none; 
+            z-index: 10;
+        }
+
+        /* --- CENTERED CONTENT --- */
+        #content-wrapper {
+            max-width: 1400px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1; 
+        }
+
+        #reason-text {
+            font-size: clamp(2rem, 6vw, 5.5rem); 
+            line-height: 1.1; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            text-wrap: balance; 
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            letter-spacing: -2px;
+            width: 100%;
+            margin: 0; 
+        }
+
+        /* --- BOTTOM BUTTON --- */
+        #refresh-btn {
+            position: absolute;
+            bottom: 50px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            
+            background: transparent;
+            border: 4px solid var(--text-colour);
+            color: var(--text-colour);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            padding: 20px 45px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+            overflow: hidden;
+            outline: none;
+            z-index: 100;
+            white-space: nowrap; 
+        }
+
+        /* Button Interactions */
+        #refresh-btn span {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #refresh-btn:hover {
+            background-color: var(--text-colour);
+            color: var(--bg-colour);
+            box-shadow: 0 10px 20px rgba(0, 77, 55, 0.2);
+            transform: translateX(-50%) translateY(-5px); 
+        }
+
+        #refresh-btn:hover span {
+            transform: rotate(-45deg); 
+        }
+
+        #refresh-btn:active {
+            transform: translateX(-50%) translateY(1px);
+        }
+
+        /* Animation States */
+        .fade-out-up {
+            opacity: 0 !important;
+            transform: translateY(-40px) scale(0.95) !important;
+        }
+
+        .prepare-enter {
+            opacity: 0 !important;
+            transform: translateY(40px) !important; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="site-title">Newport Isn't Shit</div>
+
+    <div id="content-wrapper">
+        <div id="reason-text"></div> </div>
+
+    <button id="refresh-btn" onclick="nextReason()">
+        Give me another reason <span>&rarr;</span>
+    </button>
+
+    <script>
+        const reasons = [
+            "Kurt Cobain allegedly proposed to Courtney Love at TJ's in Newport.",
+            "Joe Strummer of The Clash worked as a gravedigger at St Woolos Cemetery.",
+            "Harry Houdini jumped off Newport Bridge in handcuffs in 1913 (and survived).",
+            "Doctor Who is frequently filmed here, including the famous Auton invasion scene.",
+            "Newport was the site of the last large-scale armed rebellion in Great Britain.",
+            "The river Usk has the second highest tidal range in the world.",
+            "Ian Rush, Liverpool legend, started his career at Newport County.",
+            "The Transporter Bridge is one of fewer than 10 functioning examples left on Earth.",
+            "Newport Market is one of the finest surviving examples of Victorian architecture.",
+            "The Roman amphitheatre at Caerleon is the only fully excavated one in Britain.",
+            "Newport's 'Westgate Hotel' still has bullet holes from the 1839 uprising.",
+            "Goldie Lookin Chain put Newport on the global hip-hop map.",
+            "The 'Newport Wave' steel sculpture is a structural masterpiece.",
+            "Skindred, one of the world's most unique metal bands, hails from Newport."
+        ];
+
+        const textElement = document.getElementById('reason-text');
+        const button = document.getElementById('refresh-btn');
+
+        // --- INITIAL RANDOM START ---
+        // Pick a random number between 0 and the length of the list
+        let currentReasonIndex = Math.floor(Math.random() * reasons.length);
+        
+        // Set the text immediately
+        textElement.textContent = reasons[currentReasonIndex];
+
+        function nextReason() {
+            button.disabled = true;
+
+            // 1. Fade Out 
+            textElement.classList.add('fade-out-up');
+
+            setTimeout(() => {
+                // 2. Select random unique reason
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * reasons.length);
+                } while (newIndex === currentReasonIndex && reasons.length > 1);
+                
+                currentReasonIndex = newIndex;
+                textElement.textContent = reasons[currentReasonIndex];
+
+                // 3. Reset position
+                textElement.classList.remove('fade-out-up');
+                textElement.classList.add('prepare-enter');
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                         // 4. Fade In
+                        textElement.classList.remove('prepare-enter');
+                    });
+                });
+
+                button.disabled = false;
+            }, 400); 
+        }
+    </script>
+</body>
+</html>s
